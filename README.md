@@ -9,6 +9,9 @@ sudo pkg add https://github.com/mihakralj/opnsense-ipcheck/raw/main/os-ipcheck-d
 ## remove
 `sudo pkg delete os-ipcheck-devel`
 
+## feedback
+https://github.com/mihakralj/opnsense-ipcheck/discussions
+
 ## Version 0.1
 Enabled 9 API services:
 ### Vpnapi
