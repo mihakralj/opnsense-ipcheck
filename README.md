@@ -3,7 +3,7 @@ ipcheck plugin for OPNsense verifies what various APIs on the internet know abou
 
 ## install
 ```
-sudo pkg add https://github.com/mihakralj/opnsense-ipcheck/
+sudo pkg add https://github.com/mihakralj/opnsense-ipcheck/raw/main/os-ipcheck-devel-0.1_1.txz
 ```
 
 ## remove
