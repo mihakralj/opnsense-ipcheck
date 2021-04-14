@@ -1,0 +1,4 @@
+Early build of ipcheck that verifies
+what internet APIs know about exposed
+public IP addresses - works with 
+IPv4 and IPv6.

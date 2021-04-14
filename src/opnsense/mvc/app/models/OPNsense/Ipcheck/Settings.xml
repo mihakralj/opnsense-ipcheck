@@ -1,0 +1,78 @@
+<model>
+    <mount>//OPNsense/ipcheck</mount>
+    <description>Ipcheck configuration</description>
+    <version>0.1</version>
+    <items>
+        <vpnapi type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </vpnapi>
+        <vpnapikey type="TextField">
+            <Required>N</Required>
+        </vpnapikey>
+
+        <proxycheck type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </proxycheck>
+        <proxycheckkey type="TextField">
+            <Required>N</Required>
+        </proxycheckkey>
+
+        <ipbl type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </ipbl>        
+        <ipblkey type="TextField">
+            <Required>N</Required>
+        </ipblkey>
+
+        <ipqs type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </ipqs>        
+        <ipqskey type="TextField">
+            <Required>N</Required>
+        </ipqskey>
+
+        <ip2loc type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </ip2loc>  
+        <ip2lockey type="TextField">
+            <Required>N</Required>
+        </ip2lockey>              
+
+        <ip2proxy type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </ip2proxy> 
+        <ip2proxykey type="TextField">
+            <Required>N</Required>
+        </ip2proxykey>
+
+        <onionoo type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </onionoo>  
+
+        <scamalytics type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </scamalytics>        
+        <scamalyticsname type="TextField">
+            <Required>N</Required>
+        </scamalyticsname>
+        <scamalyticskey type="TextField">
+            <Required>N</Required>
+        </scamalyticskey>
+
+        <ipvoid type="BooleanField">
+            <default>0</default>
+            <Required>Y</Required>
+        </ipvoid>        
+        <ipvoidkey type="TextField">
+            <Required>N</Required>
+        </ipvoidkey>
+    </items>
+</model>
