@@ -9,23 +9,23 @@ sudo pkg add https://github.com/mihakralj/opnsense-ipcheck/raw/main/os-ipcheck-d
 ## remove
 `sudo pkg delete os-ipcheck-devel`
 
-### Version 0.1
+## Version 0.1
 Enabled 9 API services:
-#### Vpnapi
+### Vpnapi
 100 requests per day without an API key. API key increases daily limit of requests from 100 to 1,000. Get a free API key at https://vpnapi.io/signup
-#### Proxycheck
+### Proxycheck
 100 requests per day without an API key. The API key increases daily limit from 100 to 1,000 requests. Get a free API key at https://proxycheck.io/dashboard/
-#### ip2location
+### ip2location
 ip2location allows 20 requests per day without an API key. API key grants 5,000 credits (about 300 requests). Get a free API key at https://ip2location.com/register?id=1005
-#### ip2proxy
+### ip2proxy
 ip2proxy allows 50 requests total (not daily, TOTAL) without an API key. API key grants 5,000 credits TOTAL. Get a free API key at https://www.ip2location.com/web-service/ip2proxy
-#### IpQualityScore
+### IpQualityScore
 ipqualityscore.com allows 5,000 requsts per month with a free API key. Get a free API key at https://www.ipqualityscore.com/
-#### IpBlacklist
+### IpBlacklist
 Allows 1,000 requsts per day with a free API key. Get a free API key at https://ipblacklist.ai/
-#### Scamalytics
+### Scamalytics
 Allows 5,000 requsts per month with a free API key. Get a free API key (and username) at https://scamalytics.com/ip/api/enquiry
-#### Ipvoid
+### Ipvoid
 Allows 25 credits (~310 requests) with a free API key. Get a free API key athttps://www.apivoid.com/api/ip-reputation/
-#### Onionoo
+### Onionoo
 TOR relay directory API - unlimited requests
