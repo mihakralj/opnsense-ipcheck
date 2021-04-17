@@ -32,6 +32,10 @@ use OPNsense\Core\Backend;
 
 class RunController extends ApiControllerBase
 {
+    public function statusAction()
+    {
+        return (new Backend())->configdpRun("ipcheck status");
+    }
     public function allAction()
     {
         return (new Backend())->configdpRun("ipcheck all");
@@ -59,18 +63,6 @@ class RunController extends ApiControllerBase
     public function ipqsAction()
     {
         return (new Backend())->configdpRun("ipcheck ipqs");
-    }
-    public function ipblAction()
-    {
-        return (new Backend())->configdpRun("ipcheck ipbl");
-    }
-    public function scamalyticsAction()
-    {
-        return (new Backend())->configdpRun("ipcheck scamalytics");
-    }
-    public function ipvoidAction()
-    {
-        return (new Backend())->configdpRun("ipcheck ipvoid");
     }
     public function onionooAction()
     {

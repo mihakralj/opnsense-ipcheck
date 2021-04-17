@@ -1,6 +1,7 @@
 {#
 
-This file is Copyright © 2021 Miha Kralj
+OPNsense® is Copyright © 2014 – 2018 by Deciso B.V.
+This file is Copyright © 2018 by Michael Muenz <m.muenz@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

@@ -4,7 +4,7 @@
     <version>0.1</version>
     <items>
         <vpnapi type="BooleanField">
-            <default>0</default>
+            <default>1</default>
             <Required>Y</Required>
         </vpnapi>
         <vpnapikey type="TextField">
@@ -12,27 +12,32 @@
         </vpnapikey>
 
         <proxycheck type="BooleanField">
-            <default>0</default>
+            <default>1</default>
             <Required>Y</Required>
         </proxycheck>
         <proxycheckkey type="TextField">
             <Required>N</Required>
         </proxycheckkey>
 
-        <ipbl type="BooleanField">
-            <default>0</default>
-            <Required>Y</Required>
-        </ipbl>        
-        <ipblkey type="TextField">
-            <Required>N</Required>
-        </ipblkey>
-
         <ipqs type="BooleanField">
             <default>0</default>
             <Required>Y</Required>
+            <Constraints>
+                <check001>
+                    <reference>ipqskey.check001</reference>
+                </check001>
+            </Constraints>
         </ipqs>        
         <ipqskey type="TextField">
             <Required>N</Required>
+            <Constraints>
+                <check001>
+                    <type>DependConstraint</type>
+                    <addFields>
+                        <field1>ipqs</field1>
+                    </addFields>
+                </check001>
+            </Constraints>
         </ipqskey>
 
         <ip2loc type="BooleanField">
@@ -56,23 +61,5 @@
             <Required>Y</Required>
         </onionoo>  
 
-        <scamalytics type="BooleanField">
-            <default>0</default>
-            <Required>Y</Required>
-        </scamalytics>        
-        <scamalyticsname type="TextField">
-            <Required>N</Required>
-        </scamalyticsname>
-        <scamalyticskey type="TextField">
-            <Required>N</Required>
-        </scamalyticskey>
-
-        <ipvoid type="BooleanField">
-            <default>0</default>
-            <Required>Y</Required>
-        </ipvoid>        
-        <ipvoidkey type="TextField">
-            <Required>N</Required>
-        </ipvoidkey>
     </items>
 </model>

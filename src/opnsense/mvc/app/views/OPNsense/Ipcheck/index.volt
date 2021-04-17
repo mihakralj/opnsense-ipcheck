@@ -1,5 +1,7 @@
 {#
-This file is Copyright © 2021 by Miha Kralj
+
+OPNsense® is Copyright © 2014 – 2018 by Deciso B.V.
+This file is Copyright © 2018 by Michael Muenz <m.muenz@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -29,11 +31,8 @@ Active APIs:<br/>
 <span id="checkproxy" class="label">Proxycheck</span>
 <span id="checkip2loc" class="label">ip2location</span> 
 <span id="checkip2proxy" class="label">ip2proxy</span> 
-<span id="checkipqs" class="label">IpQualityScore</span> 
-<span id="checkipbl" class="label">IpBlacklist</span> 
-<span id="checkscamalytics" class="label">Scamalytics</span> 
-<span id="checkipvoid" class="label">Ipvoid</span> 
 <span id="checkonionoo" class="label">Onionoo</span> 
+<span id="checkipqs" class="label">IpQualityScore</span> 
 
 <br/><br/>
 
@@ -43,16 +42,37 @@ Active APIs:<br/>
 
 <table id="ipcheck_widget_table" class="table table-striped table-condensed">
     <tr>
-        <th width=25%> </th>
-        <th id="ipv4hdr"></th>
-        <th id="ipv6hdr"></th>
+        <td id="rowhdr"></td>
+        <td id="ipv4hdr" class="hidden">IPv4</td>
+        <td id="ipv6hdr" class="hidden">IPv6</td>
     </tr>
-    <tr>
-        <td>Public IP address:</td>
-        <td id="ipv4address"></td>
-        <td id="ipv6address"></td>
+    <tr id="rowaddress" class="hidden">
+        <td>Public IP address:<small><br/>Network:<br/>Network type:</small></td>
+        <td id="ipv4address" class="hidden"></td>
+        <td id="ipv6address" class="hidden"></td>
     </tr>
+    <tr id="rowisp" class="hidden">
+        <td>Internet provider:<small><br/>ASN:<br/>City:<br/>Region:<br/>Country:</small></td>
+        <td id="ipv4isp" class="hidden"></td>
+        <td id="ipv6isp" class="hidden"></td>
+    </tr>
+    <tr id="rowvpn" class="hidden">
+        <td><small> Proxy detected:<br/>VPN detected:<br/>TOR detected:</small></td>
+        <td id="ipv4vpn" class="hidden"></td>
+        <td id="ipv6vpn" class="hidden"></td>
+    </tr>
+    <tr id="rowrisk" class="hidden">
+        <td><small>IPQS Fraud score:<br/>Proxy risk score:</small></td>
+        <td id="ipv4risk" class="hidden"></td>
+        <td id="ipv6risk" class="hidden"></td>
+    </tr> 
     <tr>
+        <td style="text-align:left">
+            <a href="#"><i class="fa fa-toggle-off text-danger" id="show_advanced"></i></a>
+            <small>API details</small>
+        </td>
+    </tr>
+    <tr id="advanced" class="hidden">
         <td>json dump:</td>
         <td id="ipv4json"></td>
         <td id="ipv6json"></td>
@@ -63,15 +83,15 @@ Active APIs:<br/>
 <script>
     $(document).ready(function() {
         ajaxCall(url = "/api/ipcheck/run/list", {}, function(chck, status) {
-            $('#checkvpnapi').addClass((chck.vpnapi==true)?'label-success':'label')
-            $('#checkproxy').addClass((chck.proxycheck==true)?"label-success":"label")
-            $('#checkip2loc').addClass((chck.ip2loc==true)?"label-success":"label")
-            $('#checkip2proxy').addClass((chck.ip2proxy==true)?"label-success":"label") 
-            $('#checkipqs').addClass((chck.ipqs==true)?"label-success":"label")
-            $('#checkipbl').addClass((chck.ipbl==true)?"label-success":"label")
-            $('#checkscamalytics').addClass((chck.scamalytics==true)?"label-success":"label")
-            $('#checkipvoid').addClass((chck.ipvoid==true)?"label-success":"label")
-            $('#checkonionoo').addClass((chck.onionoo==true)?"label-success":"label")
+            $('#checkvpnapi').addClass((chck.vpnapi==true)?'label-success':'label-default')
+            $('#checkproxy').addClass((chck.proxycheck==true)?"label-success":"label-default")
+            $('#checkip2loc').addClass((chck.ip2loc==true)?"label-success":"label-default")
+            $('#checkip2proxy').addClass((chck.ip2proxy==true)?"label-success":"label-default") 
+            $('#checkipqs').addClass((chck.ipqs==true)?"label-success":"label-default")
+            $('#checkonionoo').addClass((chck.onionoo==true)?"label-success":"label-default")
+        });
+        ajaxCall(url = "/api/ipcheck/run/status", {}, function(chck, status) {
+            render(chck);
         });
     });
 
@@ -80,18 +100,46 @@ Active APIs:<br/>
             $("#runAct_progress").addClass("fa fa-spinner fa-pulse");
             ajaxCall(url = "/api/ipcheck/run/all", {}, function(r, status) {
                 $("#runAct_progress").removeClass("fa fa-spinner fa-pulse");
-
-                if(r.ipv4.ip) {
-                    $('#ipv4hdr').text("IPv4");
-                    $('#ipv4address').text(r.ipv4.ip);
-                    $('#ipv4json').html("<small><pre>"+JSON.stringify(r.ipv4, null, 4)+"</pre></small>");
-                }                
-                if(r.ipv6.ip) {
-                    $('#ipv6hdr').text("IPv6");
-                    $('#ipv6address').text(r.ipv6.ip);
-                    $('#ipv6json').html("<pre>"+JSON.stringify(r.ipv6, null, 4)+"</pre>");  
-                }
+                render(r)
             });
         });
+    });
+    
+    function s(i) {
+        return (i===false || i===null)?'':i
+    }
+    function render(r){
+        $('#rowaddress').removeClass("hidden")
+        $('#rowisp').removeClass("hidden")
+        $('#rowvpn').removeClass("hidden")
+        $('#rowrisk').removeClass("hidden")
+        $('#rowhdr').html('<small>'+r.timestamp+'<br/>'+r.source+'</small>')
+        if(r.ipv4.ip) {
+            $('#ipv4hdr,#ipv4address,#ipv4isp,#ipv4vpn,#ipv4risk').removeClass("hidden")
+            $('#ipv4address').html(r.ipv4.ip+'<small>'+'<br/>'+s(r.ipv4.network)+'<br/>'+s(r.ipv4.network_type)+'</small>')
+            $('#ipv4isp').html(s(r.ipv4.isp)+'<small><br/>'+s(r.ipv4.asn)+'<br/>'+s(r.ipv4.city)+'<br/>'+s(r.ipv4.region)+'<br/>'+s(r.ipv4.country)+'</small>');
+            proxy = r.ipv4.proxy==true?'<span class="label label-danger">True</span>':'<span class="label label-success">False</span>'
+            vpn = r.ipv4.vpn==true?'<span class="label label-danger">True</span>':'<span class="label label-success">False</span>'
+            tor = r.ipv4.tor==true?'<span class="label label-danger">True</span>':'<span class="label label-success">False</span>'
+            $('#ipv4vpn').html(proxy+'<br/>'+vpn+'<br/>'+tor)
+            $('#ipv4risk').html('<small>'+s(r.ipv4.ipqs_fraud_score)+'<br/>'+s(r.ipv4.proxycheck_risk)+'</small>')
+
+        }                
+        if(r.ipv6.ip) {
+            $('#ipv6hdr,#ipv6address,#ipv6isp,#ipv6vpn,#ipv6risk').removeClass("hidden")
+            $('#ipv6address').html(r.ipv6.ip+'<small>'+'<br/>'+s(r.ipv6.network)+'<br/>'+s(r.ipv6.network_type)+'</small>')
+            $('#ipv6isp').html(s(r.ipv6.isp)+'<small><br/>'+s(r.ipv6.asn)+'<br/>'+s(r.ipv6.city)+'<br/>'+s(r.ipv6.region)+'<br/>'+s(r.ipv6.country)+'</small>');
+            proxy = r.ipv6.proxy==true?'<span class="label label-danger">True</span>':'<span class="label label-success">False</span>'
+            vpn = r.ipv6.vpn==true?'<span class="label label-danger">True</span>':'<span class="label label-success">False</span>'
+            tor = r.ipv6.tor==true?'<span class="label label-danger">True</span>':'<span class="label label-success">False</span>'
+            $('#ipv6vpn').html(proxy+'<br/>'+vpn+'<br/>'+tor)
+            $('#ipv6risk').html('<small>'+s(r.ipv6.ipqs_fraud_score)+'<br/>'+s(r.ipv6.proxycheck_risk)+'</small>')
+        }
+        $('#ipv4json').html("<pre>"+JSON.stringify(r.ipv4, null, 4)+"</pre>");
+        $('#ipv6json').html("<pre>"+JSON.stringify(r.ipv6, null, 4)+"</pre>");                
+    };
+
+    $('#show_advanced').click(function(){
+        $("#advanced").toggleClass("hidden");
     });
 </script>

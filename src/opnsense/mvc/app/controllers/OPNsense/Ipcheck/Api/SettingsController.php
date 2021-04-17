@@ -1,7 +1,7 @@
 <?php
 
 /**
- *    Copyright (C) 2021 Miha Kralj
+ *    Copyright (C) 2018 Michael Muenz <m.muenz@gmail.com>
  *
  *    All rights reserved.
  *
