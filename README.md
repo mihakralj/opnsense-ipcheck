@@ -3,14 +3,20 @@ ipcheck plugin for OPNsense verifies what various APIs on the internet know abou
 
 ## install
 ```
-sudo pkg add https://github.com/mihakralj/opnsense-ipcheck/raw/main/os-ipcheck-devel-0.1_1.txz
+sudo pkg add https://github.com/mihakralj/opnsense-ipcheck/raw/main/os-ipcheck-devel-0.2_1.txz
 ```
 
 ## remove
 `sudo pkg delete os-ipcheck-devel`
 
-## feedback
-https://github.com/mihakralj/opnsense-ipcheck/discussions
+## Version 0.2
+* Reduced the list of APIs down to 6
+* only ipqualityscore API requires the key, for all others keys are optional
+* keys are stored in conf/config.xml
+* any combimation of APIs works
+* Status page that displays IPv4 and IPv6 information
+* details with received json are hidden under API details
+* Configurable widget that allows selection of address, isp, vpn/proxy and risk
 
 ## Version 0.1
 Enabled 9 API services:
